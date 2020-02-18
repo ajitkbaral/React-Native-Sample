@@ -7,6 +7,40 @@ import HomeItem from './components/home/HomeItem';
 const { height, width } = Dimensions.get('window');
 class HomeScreen extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            findList: [
+                {
+                    name: 'Home',
+                    image: require('../assets/home.jpg')
+                },
+                {
+                    name: 'Experience',
+                    image: require('../assets/home.jpg')
+                },
+                {
+                    name: 'Resturants',
+                    image: require('../assets/home.jpg')
+                },
+                {
+                    name: 'Hotels',
+                    image: require('../assets/home.jpg')
+                }
+            ]
+        }
+    }
+
+    getCategory() {
+        return this.state.findList.map(item => {
+            return (
+                <TouchableOpacity onPress={() => this.goToDetails()}>
+                    <Category imageUri={item.image} name={item.name} />
+                </TouchableOpacity>
+            )
+        });
+    }
+
     goToDetails() {
         this.props.navigation.navigate('Details');
     }
@@ -20,14 +54,7 @@ class HomeScreen extends Component {
                         </Text>
                         <View style={{ height: 130, marginTop: 20 }}>
                             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                                <TouchableOpacity onPress={() => this.goToDetails()}>
-                                    <Category imageUri={require('../assets/home.jpg')} name="Home" />
-                                </TouchableOpacity>
-                                <Category imageUri={require('../assets/home.jpg')} name="Experience" />
-                                <Category imageUri={require('../assets/home.jpg')} name="Resturants" />
-                                <Category imageUri={require('../assets/home.jpg')} name="Home" />
-                                <Category imageUri={require('../assets/home.jpg')} name="Home" />
-                                <Category imageUri={require('../assets/home.jpg')} name="Home" />
+                                {this.getCategory()}
                             </ScrollView>
                         </View>
                     </View>

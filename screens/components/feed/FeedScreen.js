@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, ActivityIndicator, FlatList, TouchableOpacity } from 'react-native';
 
 
-const Item = ({ id, title, completed }) => {
+const Item = ({ id, title, completed, goToDetailsHandler }) => {
 
     return (
-        <TouchableOpacity>
+        <TouchableOpacity onPress={goToDetailsHandler}>
             <View style={{ paddingHorizontal: 20, paddingVertical: 10, borderBottomWidth: 0.5, borderColor: '#ddd' }}>
                 <Text key={id}>{title}</Text>
             </View>
-        </TouchableOpacity>
+        </TouchableOpacity >
     )
 }
 
@@ -37,6 +37,10 @@ class FeedScreen extends Component {
             });
     }
 
+    goToDetailsHandler = (item) => {
+        this.props.navigation.navigate('Feed Details', { item })
+    }
+
     render() {
         if (this.state.isLoading) {
             return (
@@ -50,7 +54,7 @@ class FeedScreen extends Component {
             return (
                 <View style={styles.container}>
                     <FlatList data={this.state.dataSource} keyExtractor={item => item.id.toString()} renderItem={({ item }) =>
-                        <Item title={item.title} id={item.id} completed={item.completed} />
+                        <Item title={item.title} id={item.id} completed={item.completed} goToDetailsHandler={() => this.goToDetailsHandler(item)} />
                     }></FlatList>
                 </View>
             )

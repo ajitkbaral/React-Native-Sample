@@ -8,8 +8,10 @@ Ionicons.loadFont();
 
 import LoginScreen from './screens/LoginScreen';
 import SignUpScreen from './screens/SignUpScreen';
-import FeedScreen from './screens/FeedScreen';
+import FeedScreen from './screens/components/feed/FeedScreen';
+import FeedDetailsScreen from './screens/components/feed/FeedDetailsScreen';
 import HomeScreen from './screens/HomeScreen';
+import SettingsScreen from './screens/SettingsScreen';
 import DetailsScreen from './screens/DetailsScreen';
 
 
@@ -30,7 +32,10 @@ function shouldHeaderBeShown(route) {
   switch (routeName) {
     case 'Home':
       return false;
+    case 'Feed':
+      return false;
   }
+
 }
 
 const HomeStack = createStackNavigator();
@@ -49,11 +54,22 @@ const HomeStackNavigator = ({ navigation, route }) => {
   )
 }
 
-const SettingsScreen = () => (
-  <View style={styles.container}>
-    <Text>Settings Screen</Text>
-  </View>
-)
+const FeedStack = createStackNavigator();
+
+const FeedStackNavigator = ({ navigation, route }) => {
+  if (route.state) {
+    navigation.setOptions({
+      tabBarVisible: route.state.index > 0 ? false : true
+    })
+  }
+  return (
+    <FeedStack.Navigator initialRouteName="Feed">
+      <FeedStack.Screen name="Feed" component={FeedScreen} />
+      <FeedStack.Screen name="Feed Details" component={FeedDetailsScreen} options={{ headerShown: true }} />
+    </FeedStack.Navigator>
+  )
+}
+
 
 const Tab = createBottomTabNavigator();
 
@@ -83,7 +99,7 @@ const TabNavigatorScreen = () => (
     }}
   >
     <Tab.Screen name="Home" component={HomeStackNavigator} />
-    <Tab.Screen name="Feed" component={FeedScreen} />
+    <Tab.Screen name="Feed" component={FeedStackNavigator} />
     <Tab.Screen name="Settings" component={SettingsScreen} />
   </Tab.Navigator>
 )
@@ -102,13 +118,5 @@ const App = () => (
     </Stack.Navigator>
   </NavigationContainer>
 )
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'white'
-  }
-})
 
 export default App;
