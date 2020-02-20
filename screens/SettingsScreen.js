@@ -4,7 +4,7 @@ import { View, Text, Button, StyleSheet } from 'react-native';
 function SettingsScreen() {
     const [toggle, setToggle] = useState(false);
     const [name, setName] = useState('Ajit Kumar Baral');
-    const [address, setAddress] = useState({ county: 'Nepal', state: 'Bagmati', zipcode: '44700' })
+    const [address, setAddress] = useState({ country: 'Nepal', state: 'Bagmati', zipcode: '44700' })
 
     const clickHandler = () => {
         if (!toggle) {

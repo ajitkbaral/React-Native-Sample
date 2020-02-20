@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, ActivityIndicator, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, RefreshControl, ActivityIndicator, FlatList, TouchableOpacity } from 'react-native';
 
 
 const Item = ({ id, title, completed, goToDetailsHandler }) => {
@@ -24,6 +24,10 @@ class FeedScreen extends Component {
     }
 
     componentDidMount() {
+        this.loadData();
+    }
+
+    loadData() {
         fetch('https://jsonplaceholder.typicode.com/todos/')
             .then(response => response.json())
             .then(json => {
@@ -42,23 +46,33 @@ class FeedScreen extends Component {
     }
 
     render() {
-        if (this.state.isLoading) {
-            return (
-                <View style={styles.loadingContainer}>
-                    <ActivityIndicator></ActivityIndicator>
-                    <Text style={{ marginTop: 10 }}>Loading...</Text>
-                </ View>
-            )
-        } else {
+        // if (this.state.isLoading) {
+        //     return (
+        //         <View style={styles.loadingContainer}>
+        //             <ActivityIndicator></ActivityIndicator>
+        //             <Text style={{ marginTop: 10 }}>Loading...</Text>
+        //         </ View>
+        //     )
+        // } else {
 
-            return (
-                <View style={styles.container}>
-                    <FlatList data={this.state.dataSource} keyExtractor={item => item.id.toString()} renderItem={({ item }) =>
+        return (
+            <View style={styles.container}>
+                <FlatList
+                    data={this.state.dataSource}
+                    keyExtractor={item => item.id.toString()}
+                    renderItem={({ item }) =>
                         <Item title={item.title} id={item.id} completed={item.completed} goToDetailsHandler={() => this.goToDetailsHandler(item)} />
-                    }></FlatList>
-                </View>
-            )
-        }
+                    }
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={this.state.isLoading}
+                            onRefresh={this.loadData()}
+                        />}
+                >
+                </FlatList>
+            </View>
+        )
+        // }
     }
 }
 
