@@ -28,8 +28,6 @@ class LoginScreen extends Component {
         this.keyboardHeightAnimation = new Animated.Value(0);
         this.forwardArrowOpacityAnimation = new Animated.Value(0);
         this.borderBottomWidthAnimation = new Animated.Value(0);
-
-
     }
 
     keyboardWillShow = (event) => {
@@ -100,6 +98,7 @@ class LoginScreen extends Component {
     }
 
     render() {
+        const { navigation } = this.props;
         const headerTextOpacityAnimation = this.loginHeight.interpolate({
             inputRange: [INITIAL_HEIGHT, SCREEN_HEIGHT],
             outputRange: [1, 0]
@@ -151,7 +150,7 @@ class LoginScreen extends Component {
                     justifyContent: 'center',
                     borderRadius: 30
                 }}>
-                    <TouchableOpacity onPress={() => this.props.navigation.navigate('Tab')}>
+                    <TouchableOpacity onPress={() => navigation.navigate('Tab')}>
                         <Icon name="md-arrow-forward" style={{ color: 'white' }} />
                     </TouchableOpacity>
 
@@ -234,7 +233,7 @@ class LoginScreen extends Component {
                             borderTopColor: '#e8e8ec',
                             paddingHorizontal: 25
                         }}>
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
                                 <Text style={{ color: '#5a7fdf', fontWeight: 'bold' }}>Or Connect Using a Social Account</Text>
                             </TouchableOpacity>
                         </View>
